@@ -136,7 +136,6 @@ template <class T> struct Iterator {
     return node_ != other.node_;
   }
 
-private:
   QueueNode<T> *node_{nullptr};
 };
 
@@ -237,6 +236,21 @@ public:
 
       alloc_.PutNode(head);
     }
+  }
+
+  iterator erase(const iterator& position) noexcept {
+    iterator next(position.node_->next);
+
+    if (length_ > 0) {
+      position.node_->next->prev = position.node_->prev;
+      position.node_->prev->next = position.node_->next;
+      length_--;
+
+      _destroy((T *)position.node_->data);
+      alloc_.PutNode(position.node_);
+    }
+
+    return next;
   }
 
   void clear() noexcept {

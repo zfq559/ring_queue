@@ -30,6 +30,7 @@ Description of methods:
 * `push(const T& value)` Insert an element into queue
 * `emplace(Args&&... args)` Insert an element into queue
 * `pop()` Remove the smallest element from header
+* `erase(const iterator& position)` Remove element in 'position'
 * `front()` The first element
 * `empty()` The queue is empty or not
 * `size()` The element number

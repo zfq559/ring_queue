@@ -289,6 +289,44 @@ TEST_F(RingQueueTest, emplace) {
   EXPECT_EQ(base_queue_.size(), 1);
 }
 
+TEST_F(RingQueueTest, erase) {
+  base_queue_.emplace(1, "hello");
+  base_queue_.emplace(3, "hello");
+  base_queue_.emplace(2, "hello");
+
+  int i = 1;
+  for (auto it = base_queue_.begin(); it != base_queue_.end(); ++it, ++i) {
+    ASSERT_EQ(it->index_, i);
+  }
+
+  auto it = base_queue_.begin();
+  ++it;
+  base_queue_.erase(it);
+
+  it = base_queue_.begin();
+  EXPECT_EQ(it->index_, 1);
+  ++it;
+  EXPECT_EQ(it->index_, 3);
+
+  base_queue_.erase(base_queue_.begin());
+  EXPECT_EQ(base_queue_.begin()->index_, 3);
+
+  base_queue_.emplace(1, "hello");
+  base_queue_.emplace(4, "hello");
+  base_queue_.emplace(2, "hello");
+  it = base_queue_.erase(base_queue_.begin());
+  it = base_queue_.erase(it);
+  i = 3;
+  for (auto it = base_queue_.begin(); it != base_queue_.end(); ++it, ++i) {
+    ASSERT_EQ(it->index_, i);
+  }
+
+  for (auto it = base_queue_.begin(); it != base_queue_.end();) {
+    it = base_queue_.erase(it);
+  }
+  EXPECT_TRUE(base_queue_.empty());
+}
+
 int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
 
