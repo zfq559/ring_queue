@@ -34,7 +34,7 @@ public:
     return res;
   }
 
-  void *PutNode(T *chunk) noexcept {
+  void PutNode(T *chunk) noexcept {
     end_->next = (Chunk *)chunk;
     end_ = (Chunk *)chunk;
   }
@@ -238,7 +238,7 @@ public:
     }
   }
 
-  iterator erase(const iterator& position) noexcept {
+  iterator erase(const iterator &position) noexcept {
     iterator next(position.node_->next);
 
     if (length_ > 0) {
